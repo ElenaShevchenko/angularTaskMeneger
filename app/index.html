@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" ng-app="taskApp">
+<head>
+  <meta charset="utf-8">
+  <title>Google Phone Gallery</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+</head>
+<body ng-controller="TaskListCtrl">
+
+
+    <div class="wrapper">
+      <div class="add-task-form">
+        <form>
+          <div class="form-item">
+            <label for="task-name">Task:</label>
+            <input id="task-name" type="text">
+          </div>
+          <div class="form-item">
+            <label for="priority">Priority:</label>
+            <select id="priority">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label for="end-date">Task:</label>
+            <input type="date" name="end-date" id="end-date" min="2016-03-01">
+          </div>
+          <div class="form-item">
+            <label></label>
+            <input type="submit" value="+">
+          </div>
+
+        </form>
+      </div>
+      <ul class="menu">
+        <li>
+          <a ng-class="{active: activeTab}" href="#" ng-click="activeTab = !activeTab">Active</a>
+        </li>
+        <li>
+          <a ng-class="{active: completedTab}" href="#" ng-click="completedTab = !completedTab">Completed</a>
+        </li>
+      </ul>
+      <div class="result-table">
+        <table>
+          <thead>
+          <tr>
+            <td  ng-click="sortType = 'name'; sortReverse = !sortReverse">
+              Task
+              <span ng-show="sortType == 'name' && !sortReverse" class="arrow arrow-down"></span>
+              <span ng-show="sortType == 'name' && sortReverse" class="arrow arrow-up"></span>
+            </td>
+            <td  ng-click="sortType = 'priority'; sortReverse = !sortReverse">
+              Priority
+              <span ng-show="sortType == 'priority' && !sortReverse" class="arrow arrow-down"></span>
+              <span ng-show="sortType == 'priority' && sortReverse" class="arrow arrow-up"></span>
+            </td>
+            <td  ng-click="sortType = 'enddate'; sortReverse = !sortReverse">
+              End date
+              <span ng-show="sortType == 'enddate' && !sortReverse" class="arrow arrow-down"></span>
+              <span ng-show="sortType == 'enddate' && sortReverse" class="arrow arrow-up"></span>
+            </td>
+            <td>
+            </td>
+          </tr>
+          </thead>
+          <tbody ng-if = "completedTab && completedTask">
+            <tr ng-repeat="task in completedTask" >
+              <td>
+                {{task.name}}
+              </td>
+              <td>
+                {{task.priority}}
+              </td>
+              <td>
+                {{task.enddate}}
+              </td>
+              <td>
+                <input type="checkbox">
+              </td>
+            </tr>
+          </tbody>
+          <tbody ng-if = "activeTab && activeTask">
+          <tr ng-repeat="task in activeTask" >
+            <td>
+              {{task.name}}
+            </td>
+            <td>
+              {{task.priority}}
+            </td>
+            <td>
+              {{task.enddate}}
+            </td>
+            <td>
+              <input type="checkbox">
+            </td>
+          </tr>
+          </tbody>
+          <tbody ng-if="completedTab && activeTab">
+          <tr ng-repeat="task in tasks" >
+            <td>
+              {{task.name}}
+            </td>
+            <td>
+              {{task.priority}}
+            </td>
+            <td>
+              {{task.enddate}}
+            </td>
+            <td>
+              <input type="checkbox">
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div ng-view></div>
+    </div>
+
+
+
+</body>
+</html>
