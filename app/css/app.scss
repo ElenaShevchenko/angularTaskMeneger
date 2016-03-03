@@ -1,0 +1,130 @@
+$indents: 20px;
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin box-sizing {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+@mixin box-shadow {
+  -webkit-box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.3);
+  box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.3);
+}
+@mixin border {
+  border: 2px solid darkgray;
+}
+//icon
+
+.arrow{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  background: url("../img/arrow_up.png") no-repeat;
+  &.arrow-down {
+    background: url("../img/arrow_down.png") no-repeat;
+  }
+}
+
+.wrapper {
+  width: 800px;
+  margin:  0 auto;
+  padding: $indents 0;
+  @include clearfix;
+}
+
+.add-task-form {
+  margin: $indents 0;
+  @include clearfix;
+  .form-item {
+    float: left;
+    margin-left: $indents;
+    &:first-child {
+      margin-left: 0;
+    }
+    input, select {
+      @include border;
+      height: $indents*1.5;
+      line-height: $indents*1.5;
+      vertical-align: middle;
+      padding: 2px;
+      @include box-sizing;
+      min-width: $indents*1.5;
+      @include box-shadow;
+    }
+
+    label {
+      display: block;
+      min-height: $indents*1.5;
+      line-height: $indents*1.5;
+    }
+  }
+}
+  .menu {
+    list-style: none;
+    margin: $indents 0;
+    @include clearfix;
+      li {
+        float: left;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+        line-height: $indents*1.5;
+        padding: 0 $indents/2;
+        @include border;
+        display: block;
+        @include box-shadow;
+        margin-left: -1px;
+        &:first-child{
+          margin-left: 0;
+        }
+        &:hover{
+          color: blue;
+        }
+        &.active{
+          background: lightblue;
+          &:hover{
+            color: black;
+          }
+        }
+
+
+      }
+  }
+
+.result-table {
+  table {
+    width: 100%;
+    @include border;
+    border-left: none;
+  }
+  thead td {
+    background: gray;
+    position: relative;
+    cursor: pointer;
+  }
+  td {
+    border-left: 2px solid darkgray;
+    padding: 5px 25px 5px 5px;
+  }
+  tbody tr:nth-child(odd) {
+    td {
+      background: lightgray;
+    }
+  }
+}
+
+
+
+
+

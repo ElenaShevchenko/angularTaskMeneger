@@ -1,0 +1,90 @@
+.arrow {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  background: url("../img/arrow_up.png") no-repeat; }
+  .arrow.arrow-down {
+    background: url("../img/arrow_down.png") no-repeat; }
+
+.wrapper {
+  width: 800px;
+  margin: 0 auto;
+  padding: 20px 0; }
+  .wrapper:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.add-task-form {
+  margin: 20px 0; }
+  .add-task-form:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .add-task-form .form-item {
+    float: left;
+    margin-left: 20px; }
+    .add-task-form .form-item:first-child {
+      margin-left: 0; }
+    .add-task-form .form-item input, .add-task-form .form-item select {
+      border: 2px solid darkgray;
+      height: 30px;
+      line-height: 30px;
+      vertical-align: middle;
+      padding: 2px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      min-width: 30px;
+      -webkit-box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3); }
+    .add-task-form .form-item label {
+      display: block;
+      min-height: 30px;
+      line-height: 30px; }
+
+.menu {
+  list-style: none;
+  margin: 20px 0; }
+  .menu:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .menu li {
+    float: left; }
+  .menu a {
+    color: black;
+    text-decoration: none;
+    line-height: 30px;
+    padding: 0 10px;
+    border: 2px solid darkgray;
+    display: block;
+    -webkit-box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
+    margin-left: -1px; }
+    .menu a:first-child {
+      margin-left: 0; }
+    .menu a:hover {
+      color: blue; }
+    .menu a.active {
+      background: lightblue; }
+      .menu a.active:hover {
+        color: black; }
+
+.result-table table {
+  width: 100%;
+  border: 2px solid darkgray;
+  border-left: none; }
+.result-table thead td {
+  background: gray;
+  position: relative;
+  cursor: pointer; }
+.result-table td {
+  border-left: 2px solid darkgray;
+  padding: 5px 25px 5px 5px; }
+.result-table tbody tr:nth-child(odd) td {
+  background: lightgray; }
+
+/*# sourceMappingURL=app.css.map */
