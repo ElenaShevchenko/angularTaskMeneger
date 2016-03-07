@@ -1,0 +1,21 @@
+<div class="custom-modal" ng-show="show">
+    <div class="overlay"></div>
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <header>
+                <h4>
+                    <span ng-bind="header"></span>
+                </h4>
+            </header>
+        </div>
+        <div class="modal-content">
+            <div class="content" ng-transclude></div>
+        </div>
+        <div class="modal-buttons">
+            <div class="buttons-wrap">
+                <button type="button" class="modal-close btn btn-default" ng-click="hideModal()">{{cancelText}}</button>
+                <button type="button" class="modal-submit btn btn-primary" ng-click="submitModal()">{{okText}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,39 +6,40 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/app.css">
   <script src="bower_components/angular/angular.js"></script>
+  <script src="js/angular-local-storage.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="js/customModalDirective.js"></script>
+
   <script src="js/filters.js"></script>
 </head>
 <body ng-controller="TaskListCtrl">
 
-
     <div class="wrapper">
-      <div class="add-task-form">
-        <form>
-          <div class="form-item">
-            <label for="task-name">Task:</label>
-            <input id="task-name" type="text">
-          </div>
-          <div class="form-item">
-            <label for="priority">Priority:</label>
-            <select id="priority">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-            </select>
-          </div>
-          <div class="form-item">
-            <label for="end-date">Task:</label>
-            <input type="date" name="end-date" id="end-date" min="2016-03-01">
-          </div>
-          <div class="form-item">
-            <label></label>
-            <input type="submit" value="+">
-          </div>
-
-        </form>
+      <div class="inline-form">
+        <div class="add-task-form">
+          <form>
+            <div class="form-item">
+              <label for="task-name">Task:</label>
+              <input id="task-name" type="text" ng-model="task.name" placeholder="Task name">
+            </div>
+            <div class="form-item">
+              <label for="priority">Priority:</label>
+              <select id="priority" ng-model ="task.priority" ng-options="option.value as option.name for option in typePriority">
+              </select>
+            </div>
+            <div class="form-item">
+              <label for="end-date">Task:</label>
+              <input type="date" name="end-date" id="end-date" ng-model="task.enddate">
+            </div>
+            <div class="form-item">
+              <label></label>
+              <input type="submit" value="+" ng-click="addTask(task)">
+            </div>
+          </form>
+        </div>
       </div>
+
       <ul class="menu">
         <li>
           <a ng-class="{active: activeTab}" href="#" ng-click="activeTab = !activeTab">Active</a>
@@ -71,7 +72,7 @@
           </tr>
           </thead>
           <tbody ng-if = "completedTab && completedTask">
-            <tr ng-repeat="task in completedTask" >
+            <tr ng-repeat="task in completedTask" ng-dblclick="toggleModal(this.task)" >
               <td>
                 {{task.name}}
               </td>
@@ -82,13 +83,13 @@
                 {{task.enddate}}
               </td>
               <td>
-                <input type="checkbox">
+                <input type="checkbox" ng-click="updateTask(task)">
               </td>
             </tr>
           </tbody>
           <tbody ng-if = "activeTab && activeTask">
-          <tr ng-repeat="task in activeTask" >
-            <td>
+          <tr ng-repeat="task in activeTask" ng-dblclick="toggleModal(task)" >
+            <td >
               {{task.name}}
             </td>
             <td>
@@ -98,7 +99,7 @@
               {{task.enddate}}
             </td>
             <td>
-              <input type="checkbox">
+              <input type="checkbox" ng-click="updateTask(task)">
             </td>
           </tr>
           </tbody>
@@ -114,7 +115,7 @@
               {{task.enddate}}
             </td>
             <td>
-              <input type="checkbox">
+              <input type="checkbox" ng-click="updateTask(task)">
             </td>
           </tr>
           </tbody>
@@ -125,7 +126,34 @@
       <div ng-view></div>
     </div>
 
+    <custom-modal header="Task details" show="show" ok-text="Submit"
+                  cancel-text="Cancel window"
+                  oncancel="cancelFn"
+                  onsubmit="submitFn"
+                  toggle-modal="toggleModal(show)"
 
-
+                  data="data">
+      <div class="add-task-form">
+        <form>
+          <div class="form-item">
+            <label for="task-name1">Task:</label>
+            <input id="task-name1" type="text" ng-model="task.name" placeholder="Task name">
+          </div>
+          <div class="form-item">
+            <label for="priority1">Priority:</label>
+            <select id="priority1" ng-model ="task.priority" ng-options="option.value as option.name for option in typePriority">
+            </select>
+          </div>
+          <div class="form-item">
+            <label for="end-date1">Task:</label>
+            <input type="date" name="end-date" id="end-date1" ng-model="task.enddate">
+          </div>
+          <div class="form-item">
+            <label for="description">Full description</label>
+            <textarea id="description">Full description</textarea>
+          </div>
+        </form>
+      </div>
+    </custom-modal>
 </body>
 </html>

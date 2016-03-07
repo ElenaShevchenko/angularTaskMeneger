@@ -23,27 +23,61 @@
     content: "";
     display: table;
     clear: both; }
-  .add-task-form .form-item {
-    float: left;
-    margin-left: 20px; }
-    .add-task-form .form-item:first-child {
-      margin-left: 0; }
-    .add-task-form .form-item input, .add-task-form .form-item select {
-      border: 2px solid darkgray;
-      height: 30px;
-      line-height: 30px;
-      vertical-align: middle;
-      padding: 2px;
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      min-width: 30px;
-      -webkit-box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
-      box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3); }
-    .add-task-form .form-item label {
-      display: block;
-      min-height: 30px;
-      line-height: 30px; }
+  .add-task-form .form-item input, .add-task-form .form-item select, .add-task-form .form-item textarea {
+    border: 2px solid darkgray;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    padding: 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    min-width: 30px;
+    -webkit-box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3); }
+  .add-task-form .form-item label {
+    min-height: 30px;
+    line-height: 30px;
+    vertical-align: top; }
+  .add-task-form .form-item textarea {
+    min-height: 100px;
+    vertical-align: top;
+    width: 100%; }
+
+.inline-form .add-task-form .form-item {
+  float: left;
+  margin-left: 20px; }
+  .inline-form .add-task-form .form-item:first-child {
+    margin-left: 0; }
+  .inline-form .add-task-form .form-item label {
+    display: block; }
+
+.modal-dialog {
+  width: 290px;
+  z-index: 10;
+  position: absolute;
+  left: 50%;
+  margin-left: -150px;
+  border: 2px solid darkgray;
+  -webkit-box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  padding: 20px;
+  height: 380px;
+  top: 50%;
+  margin-top: -185px; }
+  .modal-dialog .modal-header {
+    position: absolute;
+    top: -9px;
+    left: 20px; }
+    .modal-dialog .modal-header span {
+      background: white;
+      display: inline-block;
+      padding: 0 5px; }
+  .modal-dialog .add-task-form .form-item {
+    margin-bottom: 10px; }
 
 .menu {
   list-style: none;
@@ -86,5 +120,13 @@
   padding: 5px 25px 5px 5px; }
 .result-table tbody tr:nth-child(odd) td {
   background: lightgray; }
+
+.overlay {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.85);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0; }
 
 /*# sourceMappingURL=app.css.map */

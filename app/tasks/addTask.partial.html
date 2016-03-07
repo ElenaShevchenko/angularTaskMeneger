@@ -1,0 +1,14 @@
+        <div class="form-item">
+            <label for="task-name">Task:</label>
+            <input id="task-name" type="text" ng-model="task.name">
+        </div>
+        <div class="form-item">
+            <label for="priority">Priority:</label>
+            <select id="priority" ng-model ="task.priority" ng-options="option.value as option.name for option in typePriority">
+            </select>
+
+        </div>
+        <div class="form-item">
+            <label for="end-date">Task:</label>
+            <input type="date" name="end-date" id="end-date" min="2016-03-01" ng-model="task.enddate">
+        </div>
