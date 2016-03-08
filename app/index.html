@@ -10,8 +10,6 @@
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/customModalDirective.js"></script>
-
-  <script src="js/filters.js"></script>
 </head>
 <body ng-controller="TaskListCtrl">
 
@@ -29,7 +27,7 @@
               </select>
             </div>
             <div class="form-item">
-              <label for="end-date">Task:</label>
+              <label for="end-date">End data:</label>
               <input type="date" name="end-date" id="end-date" ng-model="task.enddate">
             </div>
             <div class="form-item">
@@ -80,11 +78,10 @@
                 {{task.priority}}
               </td>
               <td>
-                {{task.enddate}}
+                {{task.enddate | date: 'dd/MM/yyyy'}}
               </td>
               <td>
-                <input type="checkbox" ng-click="updateTask(task)">
-              </td>
+                <input type="checkbox" ng-click="updateTaskStatus(task)" ng-model="task.completed">
             </tr>
           </tbody>
           <tbody ng-if = "activeTab && activeTask">
@@ -96,10 +93,10 @@
               {{task.priority}}
             </td>
             <td>
-              {{task.enddate}}
+              {{task.enddate | date: 'dd/MM/yyyy'}}
             </td>
             <td>
-              <input type="checkbox" ng-click="updateTask(task)">
+              <input type="checkbox" ng-click="updateTaskStatus(task)" ng-model="task.completed">
             </td>
           </tr>
           </tbody>
@@ -112,10 +109,10 @@
               {{task.priority}}
             </td>
             <td>
-              {{task.enddate}}
+              {{task.enddate | date: 'dd/MM/yyyy'}}
             </td>
             <td>
-              <input type="checkbox" ng-click="updateTask(task)">
+              <input type="checkbox" ng-click="updateTaskStatus(task)" ng-model="task.completed">
             </td>
           </tr>
           </tbody>
@@ -126,31 +123,31 @@
       <div ng-view></div>
     </div>
 
-    <custom-modal header="Task details" show="show" ok-text="Submit"
-                  cancel-text="Cancel window"
-                  oncancel="cancelFn"
-                  onsubmit="submitFn"
+    <custom-modal header="Task details" show="show"
                   toggle-modal="toggleModal(show)"
-
                   data="data">
       <div class="add-task-form">
         <form>
           <div class="form-item">
-            <label for="task-name1">Task:</label>
-            <input id="task-name1" type="text" ng-model="task.name" placeholder="Task name">
+            <label for="task-name">Task:</label>
+            <input id="task-name" type="text" ng-model="data.name">
           </div>
           <div class="form-item">
-            <label for="priority1">Priority:</label>
-            <select id="priority1" ng-model ="task.priority" ng-options="option.value as option.name for option in typePriority">
+            <label for="priority">Priority:</label>
+            <select id="priority" ng-model ="data.priority" ng-options="option.value as option.name for option in typePriority">
             </select>
           </div>
           <div class="form-item">
-            <label for="end-date1">Task:</label>
-            <input type="date" name="end-date" id="end-date1" ng-model="task.enddate">
+            <label >End date:</label>
+            <input type="date"  ng-model="data.enddate">
           </div>
           <div class="form-item">
             <label for="description">Full description</label>
-            <textarea id="description">Full description</textarea>
+            <textarea id="description" ng-model="data.description">Full description</textarea>
+          </div>
+          <div class="modal-buttons">
+              <button type="button" ng-click="hideModal(data)">Cancel</button>
+              <button type="button" ng-click="submitModal()">Ok</button>
           </div>
         </form>
       </div>

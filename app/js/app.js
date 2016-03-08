@@ -6,6 +6,6 @@
 /* App Module */
 
 var taskApp = angular.module('taskApp', [
-    'TaskListCtrl'
+    'TaskListCtrl', 'taskFilters'
 ]);
 
