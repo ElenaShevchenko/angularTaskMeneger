@@ -35,12 +35,8 @@ taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) 
     function initFromJson(){
         $http.get('tasks/tasks.json').success(function(data) {
             $scope.tasks = data;
-            console.log($scope.tasks);
-
             for (var i = 0; i < $scope.tasks.length; i++){
-                console.log($scope.tasks[i].enddate);
-                $scope.tasks[i].enddate = new Date($scope.tasks[i].enddate);
-                console.log($scope.tasks[i].enddate);
+             /*   $scope.tasks[i].enddate = new Date($scope.tasks[i].enddate);*/
                 if ($scope.tasks[i].completed){
                     $scope.completedTask.push($scope.tasks[i]);
                 }
@@ -58,7 +54,6 @@ taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) 
     $scope.completedTab = false;
     $scope.sortType     = 'name'; // default sorting
     $scope.sortReverse  = false;  // reverse sort
-    $scope.showPopup = false; // hide popup by default
 
     /*Default end date is next working day*/
     $scope.tomorrow = new Date();
@@ -79,7 +74,7 @@ taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) 
         { name: '3', value: '3' }
     ];
     $scope.task = {priority: $scope.typePriority[0].value,
-                   enddate : $scope.tomorrow.date,
+                   enddate : $scope.tomorrow,
                    description: ""
 
     };
@@ -142,14 +137,14 @@ taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) 
     $scope.toggleModal = function (data) {
         $scope.taskOld = angular.copy(data);
         if(data){
+            if(typeof(data.enddate) != "object") {
+                data.enddate = new Date(data.enddate);
+            }
             $scope.data = data;
         }
         $scope.show = !$scope.show;
         return $scope.taskOld;
     };
-
-
-
 });
 
 

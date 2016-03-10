@@ -4,43 +4,43 @@
         "priority": "1",
         "enddate": 	"2012-11-28",
         "completed": true
-    }, 
+    },
     {
         "name": "to do something 1",
         "priority": "2",
         "enddate": "2013-12-28",
         "completed": false
-    }, 
+    },
     {
         "name": "to do something else",
         "priority": "3",
         "enddate": "2015-11-28",
         "completed": true
-    }, 
+    },
     {
         "name": "to do something less important",
         "priority": "2",
         "enddate": "2016-01-28",
         "completed": true
-    }, 
+    },
     {
         "name": "to do something 2",
         "priority": "1",
         "enddate": "2016-02-28",
         "completed": true
-    }, 
+    },
     {
         "name": "to do something 3",
         "priority": "3",
         "enddate": "2015-11-28",
         "completed": false
-    }, 
+    },
     {
         "name": "to do something 4",
         "priority": "2",
         "enddate": "2015-09-28",
         "completed": true
-    }, 
+    },
     {
         "name": "to do something 5",
         "priority": "3",
