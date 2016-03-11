@@ -52,7 +52,7 @@ taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) 
     $scope.tabName = 'active';
     $scope.activeTab = true;
     $scope.completedTab = false;
-    $scope.sortType     = 'name'; // default sorting
+    $scope.sortType  = 'name'; // default sorting
     $scope.sortReverse  = false;  // reverse sort
 
     /*Default end date is next working day*/

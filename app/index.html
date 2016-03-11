@@ -46,7 +46,7 @@
           <a ng-class="{active: completedTab}" href="#" ng-click="completedTab = !completedTab">Completed</a>
         </li>
       </ul>
-      <div class="result-table">
+      <div class="result-table" id="result-table">
         <table>
           <thead>
           <tr>
@@ -70,7 +70,7 @@
           </tr>
           </thead>
           <tbody ng-if = "completedTab && completedTask">
-            <tr ng-repeat="task in completedTask" ng-dblclick="toggleModal(this.task)" >
+            <tr ng-repeat="task in completedTask | orderBy:sortType:sortReverse" ng-dblclick="toggleModal(this.task)" >
               <td>
                 {{task.name}}
               </td>
@@ -85,24 +85,8 @@
             </tr>
           </tbody>
           <tbody ng-if = "activeTab && activeTask">
-          <tr ng-repeat="task in activeTask" ng-dblclick="toggleModal(task)" >
+          <tr ng-repeat="task in activeTask| orderBy:sortType:sortReverse" ng-dblclick="toggleModal(this.task)" >
             <td >
-              {{task.name}}
-            </td>
-            <td>
-              {{task.priority}}
-            </td>
-            <td>
-              {{task.enddate | date: 'dd/MM/yyyy'}}
-            </td>
-            <td>
-              <input type="checkbox" ng-click="updateTaskStatus(task)" ng-model="task.completed">
-            </td>
-          </tr>
-          </tbody>
-          <tbody ng-if="completedTab && activeTab">
-          <tr ng-repeat="task in tasks" >
-            <td>
               {{task.name}}
             </td>
             <td>
