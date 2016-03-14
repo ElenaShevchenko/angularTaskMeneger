@@ -1,8 +1,12 @@
+/*Controllers*/
+
+(function() {
 'use strict';
 
-/*Controllers*/
-var taskApp = angular.module('taskApp', ['LocalStorageModule']);
-taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) {
+ angular.module('taskApp', ['LocalStorageModule'])
+        .controller('TaskListCtrl', TaskListCtrl);
+
+function TaskListCtrl($scope, $http, localStorageService){
 
     $scope.completedTask = [];
     $scope.activeTask = [];
@@ -52,7 +56,7 @@ taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) 
     $scope.tabName = 'active';
     $scope.activeTab = true;
     $scope.completedTab = false;
-    $scope.sortType  = 'name'; // default sorting
+    $scope.sortType    = 'name'; // default sorting
     $scope.sortReverse  = false;  // reverse sort
 
     /*Default end date is next working day*/
@@ -145,9 +149,9 @@ taskApp.controller('TaskListCtrl', function($scope, $http, localStorageService) 
         $scope.show = !$scope.show;
         return $scope.taskOld;
     };
-});
+}
 
-
+})();
 
 
 
