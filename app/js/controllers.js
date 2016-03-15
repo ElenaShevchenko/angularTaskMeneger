@@ -3,153 +3,162 @@
 (function() {
 'use strict';
 
- angular.module('taskApp', ['LocalStorageModule'])
-        .controller('TaskListCtrl', TaskListCtrl);
+ angular.module ('taskApp', ['LocalStorageModule'])
+        .controller ('TaskListCtrl', TaskListCtrl);
 
-function TaskListCtrl($scope, $http, localStorageService){
+function TaskListCtrl ($scope, $http, localStorageService){
 
-    $scope.completedTask = [];
-    $scope.activeTask = [];
+    var vm = this;
 
-    initList();
+    vm.completedTask = [];
+    vm.activeTask = [];
 
-    function initList(){
+    vm.initList = initList;
+    vm.initFromJson =  initFromJson;
+    vm.addTask = addTask;
+    vm.updateTaskStatus = updateTaskStatus;
+    vm.hideModal = hideModal;
+    vm.submitModal = submitModal;
+    vm.toggleModal = toggleModal;
+
+    vm.show = false;
+    vm.tabName = 'active';
+    vm.activeTab = true;
+    vm.completedTab = false;
+    vm.sortType    = 'name'; // default sorting
+    vm.sortReverse  = false;  // reverse sort
+
+    /*Default end date is next working day*/
+    vm.tomorrow = new Date();
+    if(vm.tomorrow.getDay() == 5){
+        vm.tomorrow.setDate(vm.tomorrow.getDate() + 2);
+    }
+    else if (vm.tomorrow.getDay() == 6){
+        vm.tomorrow.setDate(vm.tomorrow.getDate() + 3);
+    }
+    else {
+        vm.tomorrow.setDate(vm.tomorrow.getDate() + 1);
+    }
+
+    /* Default priority is 1*/
+    vm.typePriority = [
+        { name: '1', value: '1' },
+        { name: '2', value: '2' },
+        { name: '3', value: '3' }
+    ];
+    vm.task = {priority: vm.typePriority[0].value,
+        enddate : vm.tomorrow,
+        description: ""
+    };
+
+    /*init date*/
+    vm.initList ();
+
+    /* Methods */
+
+    function initList (){
         var completedTask = localStorageService.get('completedTask');
         var activeTask = localStorageService.get('activeTask');
 
         if(completedTask || activeTask){
             if(completedTask){
-                $scope.completedTask.splice(0,$scope.completedTask.length);
+                vm.completedTask.splice(0,vm.completedTask.length);
                 completedTask.forEach(function(item) {
-                    $scope.completedTask.push(item);
+                    vm.completedTask.push(item);
                 });
             }
             if(activeTask){
-                $scope.activeTask.splice(0,$scope.activeTask.length);
+                vm.activeTask.splice(0,vm.activeTask.length);
                 activeTask.forEach(function(item) {
-                    $scope.activeTask.push(item);
+                    vm.activeTask.push(item);
                 });
             }
 
         } else{
-            initFromJson();
+           vm.initFromJson();
         }
     }
 
-    function initFromJson(){
+    function initFromJson (){
         $http.get('tasks/tasks.json').success(function(data) {
-            $scope.tasks = data;
-            for (var i = 0; i < $scope.tasks.length; i++){
-             /*   $scope.tasks[i].enddate = new Date($scope.tasks[i].enddate);*/
-                if ($scope.tasks[i].completed){
-                    $scope.completedTask.push($scope.tasks[i]);
+            vm.tasks = data;
+            for (var i = 0; i < vm.tasks.length; i++){
+                if (vm.tasks[i].completed){
+                    vm.completedTask.push(vm.tasks[i]);
                 }
                 else {
-                    $scope.activeTask.push($scope.tasks[i]);
+                    vm.activeTask.push(vm.tasks[i]);
                 }
             }
         });
     }
 
-
-    $scope.show = false;
-    $scope.tabName = 'active';
-    $scope.activeTab = true;
-    $scope.completedTab = false;
-    $scope.sortType    = 'name'; // default sorting
-    $scope.sortReverse  = false;  // reverse sort
-
-    /*Default end date is next working day*/
-    $scope.tomorrow = new Date();
-    if($scope.tomorrow.getDay() == 5){
-        $scope.tomorrow.setDate($scope.tomorrow.getDate() + 2);
-    }
-    else if ($scope.tomorrow.getDay() == 6){
-        $scope.tomorrow.setDate($scope.tomorrow.getDate() + 3);
-    }
-    else {
-        $scope.tomorrow.setDate($scope.tomorrow.getDate() + 1);
-    }
-
-   /* Default priority is 1*/
-    $scope.typePriority = [
-        { name: '1', value: '1' },
-        { name: '2', value: '2' },
-        { name: '3', value: '3' }
-    ];
-    $scope.task = {priority: $scope.typePriority[0].value,
-                   enddate : $scope.tomorrow,
-                   description: ""
-
-    };
-
-    $scope.addTask = function (){
-        var newTask = angular.copy($scope.task);
+    function addTask (){
+        var newTask = angular.copy(vm.task);
         if (newTask.completed){
-            $scope.completedTask.push(newTask);
-            localStorageService.set('completedTask',$scope.completedTask);
-            localStorageService.set('activeTask',$scope.activeTask);
+            vm.completedTask.push(newTask);
+            localStorageService.set('completedTask',vm.completedTask);
+            localStorageService.set('activeTask',vm.activeTask);
         }
         else {
-            $scope.activeTask.push(newTask);
-            localStorageService.set('activeTask',$scope.activeTask);
-            localStorageService.set('completedTask',$scope.completedTask);
+            vm.activeTask.push(newTask);
+            localStorageService.set('activeTask',vm.activeTask);
+            localStorageService.set('completedTask',vm.completedTask);
         }
-    };
+    }
 
-    $scope.updateTaskStatus = function (task){
+    function updateTaskStatus (task){
             if (task.completed){
-                $scope.completedTask.push(task);
-                for (var i = 0; i <  $scope.activeTask.length; i++){
-                    if ( $scope.activeTask[i] == task){
-                        $scope.activeTask.splice(i, 1);
+                vm.completedTask.push(task);
+                for (var i = 0; i <  vm.activeTask.length; i++){
+                    if ( vm.activeTask[i] == task){
+                        vm.activeTask.splice(i, 1);
                     }
                 }
-                localStorageService.set('activeTask',$scope.activeTask);
-                localStorageService.set('completedTask',$scope.completedTask);
+                localStorageService.set('activeTask',vm.activeTask);
+                localStorageService.set('completedTask',vm.completedTask);
             }
             else {
-                $scope.activeTask.push(task);
-                for (var j = 0; j <  $scope.completedTask.length; j++){
-                    if ( $scope.completedTask[j] == task){
-                        $scope.completedTask.splice(j, 1);
+                vm.activeTask.push(task);
+                for (var j = 0; j <  vm.completedTask.length; j++){
+                    if ( vm.completedTask[j] == task){
+                        vm.completedTask.splice(j, 1);
                     }
                 }
-                localStorageService.set('activeTask',$scope.activeTask);
-                localStorageService.set('completedTask',$scope.completedTask);
+                localStorageService.set('activeTask',vm.activeTask);
+                localStorageService.set('completedTask',vm.completedTask);
             }
-    };
+    }
 
+    function hideModal (task){
+        console.log(task, "task");
+        task.name = vm.taskOld.name;
+        task.priority = vm.taskOld.priority;
+        task.enddate = vm.taskOld.enddate;
+        task.description = vm.taskOld.description;
+        vm.toggleModal({show: false});
+    }
 
+    function submitModal (){
+        localStorageService.set('activeTask',vm.activeTask);
+        localStorageService.set('completedTask',vm.completedTask);
+        vm.toggleModal({show: false});
+    }
 
-    /* Methods */
-    $scope.hideModal = function (task){
-        task.name = $scope.taskOld.name;
-        task.priority = $scope.taskOld.priority;
-        task.enddate = $scope.taskOld.enddate;
-        task.description = $scope.taskOld.description;
-        $scope.toggleModal({show: false});
-    };
+    function toggleModal (data) {
 
-    $scope.submitModal = function (){
-        localStorageService.set('activeTask',$scope.activeTask);
-        localStorageService.set('completedTask',$scope.completedTask);
-        $scope.toggleModal({show: false});
-    };
-
-
-    $scope.toggleModal = function (data) {
-        $scope.taskOld = angular.copy(data);
+        vm.taskOld = angular.copy(data);
+        console.log(data, vm.taskOld, "old");
         if(data){
             if(typeof(data.enddate) != "object") {
                 data.enddate = new Date(data.enddate);
             }
-            $scope.data = data;
+            vm.data = data;
         }
-        $scope.show = !$scope.show;
-        return $scope.taskOld;
-    };
-}
+        vm.show = !vm.show;
+        console.log(data, vm.show);
+        return vm.taskOld;
+    }}
 
 })();
 

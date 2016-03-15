@@ -11,7 +11,7 @@
   <script src="js/controllers.js"></script>
   <script src="js/customModalDirective.js"></script>
 </head>
-<body ng-controller="TaskListCtrl">
+<body ng-controller="TaskListCtrl as taskList">
 
     <div class="wrapper">
       <div class="inline-form">
@@ -19,20 +19,20 @@
           <form>
             <div class="form-item">
               <label for="task-name">Task:</label>
-              <input id="task-name" type="text" ng-model="task.name" placeholder="Task name">
+              <input id="task-name" type="text" ng-model="taskList.task.name" placeholder="Task name">
             </div>
             <div class="form-item">
               <label for="priority">Priority:</label>
-              <select id="priority" ng-model ="task.priority" ng-options="option.value as option.name for option in typePriority">
+              <select id="priority" ng-model ="taskList.task.priority" ng-options="option.value as option.name for option in taskList.typePriority">
               </select>
             </div>
             <div class="form-item">
               <label for="end-date">End data:</label>
-              <input type="date" name="end-date" id="end-date" ng-model="task.enddate">
+              <input type="date" name="end-date" id="end-date" ng-model="taskList.task.enddate">
             </div>
             <div class="form-item">
               <label></label>
-              <input type="submit" value="+" ng-click="addTask(task)">
+              <input type="submit" value="+" ng-click="taskList.addTask(task)">
             </div>
           </form>
         </div>
@@ -40,37 +40,37 @@
 
       <ul class="menu">
         <li>
-          <a ng-class="{active: activeTab}" href="#" ng-click="activeTab = !activeTab">Active</a>
+          <a ng-class="{active: taskList.activeTab}" href="#" ng-click="taskList.activeTab = !taskList.activeTab">Active</a>
         </li>
         <li>
-          <a ng-class="{active: completedTab}" href="#" ng-click="completedTab = !completedTab">Completed</a>
+          <a ng-class="{active: taskList.completedTab}" href="#" ng-click="taskList.completedTab = !taskList.completedTab">Completed</a>
         </li>
       </ul>
       <div class="result-table" id="result-table">
         <table>
           <thead>
           <tr>
-            <td  ng-click="sortType = 'name'; sortReverse = !sortReverse">
+            <td  ng-click="taskList.sortType = 'name'; taskList.sortReverse = !taskList.sortReverse">
               Task
-              <span ng-show="sortType == 'name' && !sortReverse" class="arrow arrow-down"></span>
-              <span ng-show="sortType == 'name' && sortReverse" class="arrow arrow-up"></span>
+              <span ng-show="taskList.sortType == 'name' && !taskList.sortReverse" class="arrow arrow-down"></span>
+              <span ng-show="taskList.sortType == 'name' && taskList.sortReverse" class="arrow arrow-up"></span>
             </td>
-            <td  ng-click="sortType = 'priority'; sortReverse = !sortReverse">
+            <td  ng-click="taskList.sortType = 'priority'; taskList.sortReverse = !sortReverse">
               Priority
-              <span ng-show="sortType == 'priority' && !sortReverse" class="arrow arrow-down"></span>
-              <span ng-show="sortType == 'priority' && sortReverse" class="arrow arrow-up"></span>
+              <span ng-show="taskList.sortType == 'priority' && !taskList.sortReverse" class="arrow arrow-down"></span>
+              <span ng-show="taskList.sortType == 'priority' && taskList.sortReverse" class="arrow arrow-up"></span>
             </td>
-            <td  ng-click="sortType = 'enddate'; sortReverse = !sortReverse">
+            <td  ng-click="taskList.sortType = 'enddate'; taskList.sortReverse = !taskList.sortReverse">
               End date
-              <span ng-show="sortType == 'enddate' && !sortReverse" class="arrow arrow-down"></span>
-              <span ng-show="sortType == 'enddate' && sortReverse" class="arrow arrow-up"></span>
+              <span ng-show="taskList.sortType == 'enddate' && !taskList.sortReverse" class="arrow arrow-down"></span>
+              <span ng-show="taskList.sortType == 'enddate' && taskList.sortReverse" class="arrow arrow-up"></span>
             </td>
             <td>
             </td>
           </tr>
           </thead>
-          <tbody ng-if = "completedTab && completedTask">
-            <tr ng-repeat="task in completedTask | orderBy:sortType:sortReverse" ng-dblclick="toggleModal(this.task)" >
+          <tbody ng-if = "taskList.completedTab && taskList.completedTask">
+            <tr ng-repeat="task in taskList.completedTask  | orderBy:taskList.sortType:taskList.sortReverse" ng-dblclick="taskList.toggleModal(this.task)" >
               <td>
                 {{task.name}}
               </td>
@@ -81,11 +81,11 @@
                 {{task.enddate | date: 'dd/MM/yyyy'}}
               </td>
               <td>
-                <input type="checkbox" ng-click="updateTaskStatus(task)" ng-model="task.completed">
+                <input type="checkbox" ng-click="taskList.updateTaskStatus(task)" ng-model="task.completed">
             </tr>
           </tbody>
-          <tbody ng-if = "activeTab && activeTask">
-          <tr ng-repeat="task in activeTask| orderBy:sortType:sortReverse" ng-dblclick="toggleModal(this.task)" >
+          <tbody ng-if = "taskList.activeTab && taskList.activeTask">
+          <tr ng-repeat="task in taskList.activeTask | orderBy:taskList.sortType:taskList.sortReverse" ng-dblclick="taskList.toggleModal(this.task)" >
             <td >
               {{task.name}}
             </td>
@@ -96,7 +96,7 @@
               {{task.enddate | date: 'dd/MM/yyyy'}}
             </td>
             <td>
-              <input type="checkbox" ng-click="updateTaskStatus(task)" ng-model="task.completed">
+              <input type="checkbox" ng-click="taskList.updateTaskStatus(task)" ng-model="task.completed">
             </td>
           </tr>
           </tbody>
@@ -107,31 +107,31 @@
       <div ng-view></div>
     </div>
 
-    <custom-modal header="Task details" show="show"
-                  toggle-modal="toggleModal(show)"
-                  data="data">
+    <custom-modal header="Task details" show="taskList.show"
+                  toggle-modal="toggleModal(taskList.show)"
+                  data="taskList.data">
       <div class="add-task-form">
         <form>
           <div class="form-item">
             <label for="task-name">Task:</label>
-            <input id="task-name" type="text" ng-model="data.name">
+            <input id="task-name" type="text" ng-model="taskList.data.name">
           </div>
           <div class="form-item">
             <label for="priority">Priority:</label>
-            <select id="priority" ng-model ="data.priority" ng-options="option.value as option.name for option in typePriority">
+            <select id="priority" ng-model ="taskList.data.priority" ng-options="option.value as option.name for option in taskList.typePriority">
             </select>
           </div>
           <div class="form-item">
             <label >End date:</label>
-            <input type="date"  ng-model="data.enddate">
+            <input type="date"  ng-model="taskList.data.enddate">
           </div>
           <div class="form-item">
             <label for="description">Full description</label>
-            <textarea id="description" ng-model="data.description">Full description</textarea>
+            <textarea id="description" ng-model="taskList.data.description">Full description</textarea>
           </div>
           <div class="modal-buttons">
-              <button type="button" ng-click="hideModal(data)">Cancel</button>
-              <button type="button" ng-click="submitModal()">Ok</button>
+              <button type="button" ng-click="taskList.hideModal(taskList.data)">Cancel</button>
+              <button type="button" ng-click="taskList.submitModal()">Ok</button>
           </div>
         </form>
       </div>
